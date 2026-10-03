@@ -12,6 +12,7 @@ const shipped = [
   "fallback-chain.yaml",
   "rpm-cooldown.yaml",
   "cache-and-budget.yaml",
+  "latency-routing.yaml",
 ];
 
 function load(name) {
@@ -82,4 +83,12 @@ not_a_real_section: 1
   const result = checkRecipe(doc);
   assert.equal(result.ok, false);
   assert.ok(result.errors.some((error) => error.includes("unknown top-level key: not_a_real_section")));
+});
+
+test("latency recipe sets latency-based-routing", () => {
+  const doc = load("latency-routing.yaml");
+  assert.equal(doc.router_settings.routing_strategy, "latency-based-routing");
+  assert.equal(doc.model_list.length, 2);
+  assert.equal(checkRecipe(doc).ok, true);
+  assert.equal(doc.model_list[1].litellm_params.api_key, "os.environ/GROQ_API_KEY");
 });
