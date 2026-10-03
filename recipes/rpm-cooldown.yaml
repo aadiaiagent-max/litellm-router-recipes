@@ -1,0 +1,21 @@
+# Two deployments share an alias. rpm weights the shuffle.
+# allowed_fails + cooldown_time pull a noisy deployment out for a bit.
+# https://docs.litellm.ai/docs/proxy/config_settings
+model_list:
+  - model_name: chat
+    litellm_params:
+      model: openai/gpt-4o-mini
+      api_key: os.environ/OPENAI_API_KEY
+      rpm: 60
+  - model_name: chat
+    litellm_params:
+      model: azure/gpt-4o-mini
+      api_key: os.environ/AZURE_API_KEY
+      api_base: os.environ/AZURE_API_BASE
+      rpm: 30
+
+router_settings:
+  routing_strategy: simple-shuffle
+  allowed_fails: 2
+  cooldown_time: 60
+  num_retries: 1

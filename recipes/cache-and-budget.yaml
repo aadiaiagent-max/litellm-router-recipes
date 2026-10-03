@@ -1,0 +1,20 @@
+# cache lives under litellm_settings. max_budget is a proxy-wide USD cap
+# and only actually enforces when the proxy has a database. Without one it
+# fails open. https://docs.litellm.ai/docs/proxy/users
+model_list:
+  - model_name: cheap-chat
+    litellm_params:
+      model: openai/gpt-4o-mini
+      api_key: os.environ/OPENAI_API_KEY
+
+litellm_settings:
+  cache: true
+  cache_params:
+    type: redis
+    host: os.environ/REDIS_HOST
+    port: 6379
+  max_budget: 25
+  budget_duration: 1d
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
