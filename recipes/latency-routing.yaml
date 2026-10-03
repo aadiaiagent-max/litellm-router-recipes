@@ -1,0 +1,17 @@
+# Two deployments, same alias. latency-based-routing prefers the one
+# that has been answering faster. Strategy name is from the proxy docs:
+# https://docs.litellm.ai/docs/proxy/config_settings
+model_list:
+  - model_name: fast-chat
+    litellm_params:
+      model: openai/gpt-4o-mini
+      api_key: os.environ/OPENAI_API_KEY
+  - model_name: fast-chat
+    litellm_params:
+      model: groq/llama-3.1-8b-instant
+      api_key: os.environ/GROQ_API_KEY
+
+router_settings:
+  routing_strategy: latency-based-routing
+  timeout: 10
+  num_retries: 1

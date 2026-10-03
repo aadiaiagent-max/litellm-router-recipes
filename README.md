@@ -11,6 +11,7 @@ Secrets are written as `os.environ/OPENAI_API_KEY`. That is LiteLLM's placeholde
 - `recipes/fallback-chain.yaml` — alias `chat`, plus `router_settings.fallbacks` onto `chat-backup`
 - `recipes/rpm-cooldown.yaml` — `rpm` on each deployment, `allowed_fails` and `cooldown_time` (seconds)
 - `recipes/cache-and-budget.yaml` — `cache` / `cache_params`, and a proxy-wide `max_budget` with `budget_duration`
+- `recipes/latency-routing.yaml` — same alias on two deployments, `routing_strategy: latency-based-routing`
 
 `max_budget` only blocks spend when the proxy has a database. With no database it fails open. Notes: https://docs.litellm.ai/docs/proxy/users
 
